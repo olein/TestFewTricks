@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+ 
+ 	<constant name="struts.devMode" value="true" />
+ 	<constant name="struts.custom.i18n.resources" value="global" />
+ 
+	<package name="default" namespace="/" extends="struts-default">
+ 
+	<action name="fileUploadAction" 
+	    class="Fahim.FileUploadAction" method="display">
+	    <result name="none">/fileupload.jsp</result>
+	</action>
+ 
+	<action name="resultAction" class="Fahim.FileUploadAction">
+	    <interceptor-ref name="exception"/>
+            <interceptor-ref name="i18n"/>
+            <interceptor-ref name="fileUpload">
+       		<param name="allowedTypes">text/plain</param>
+       		<param name="maximumSize">10240</param>
+  	    </interceptor-ref> 
+            <interceptor-ref name="params">
+                <param name="excludeParams">dojo\..*,^struts\..*</param>
+            </interceptor-ref>
+            <interceptor-ref name="validation">
+                <param name="excludeMethods">input,back,cancel,browse</param>
+            </interceptor-ref>
+            <interceptor-ref name="workflow">
+                <param name="excludeMethods">input,back,cancel,browse</param>
+            </interceptor-ref>
+ 
+	    <result name="success">/result.jsp</result>
+	    <result name="input">/fileupload.jsp</result>
+ 
+	</action>
+	
+	<action name="userImage" class="Fahim.FileUploadAction2">  
+            <interceptor-ref name="fileUpload">  
+                <param name="maximumSize">2097152</param>  
+  
+                <param name="allowedTypes">  
+                    image/png,image/gif,image/jpeg,image/pjpeg,text/plain  
+                                </param>  
+            </interceptor-ref>  
+            <interceptor-ref name="defaultStack"></interceptor-ref>  
+            <result name="success">SuccessUserImage.jsp</result>  
+            <result name="input">UserImage.jsp</result>  
+        </action>  
+        
+        <action name="testCRUD"  class="Fahim.CRUD" method="add">  
+        	<result name="success">/result2.jsp</result>
+        
+        </action>
+        <action name="UpdateAccount"  class="Fahim.CRUD" method="update">  
+        	<result name="success">/success.jsp</result>
+        
+        </action>
+        <action name="DeleteAccount"  class="Fahim.CRUD" method="delete">  
+        	<result name="success">/success.jsp</result>
+        
+        </action>
+        <action name="GetLinks"  class="Fahim.TestLink" method="sendLink">  
+        	<result name="success">/setLink.jsp</result>
+        
+        </action>
+        <action name="getName"  class="Fahim.TestLink" method="getValue">  
+        	<result name="success">/success.jsp</result>
+        
+        </action>
+   </package>	
+</struts>
