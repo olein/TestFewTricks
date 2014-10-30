@@ -70,5 +70,10 @@
         	<result name="success">/success.jsp</result>
         
         </action>
+        
+        <action name="register" class="Fahim.RegisterAction">  
+			<result name="input">/validator.jsp</result>  
+			<result>/welcome.jsp</result>  
+		</action>  
    </package>	
 </struts>

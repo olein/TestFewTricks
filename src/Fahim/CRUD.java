@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 import com.opensymphony.xwork2.ActionContext;
 
-public class CRUD {
+public class CRUD extends Common{
 	
 	private String name;
 	private String password;
-	String table;
+	/*String table;
 	ArrayList fields = new ArrayList();
 	ArrayList type = new ArrayList();
-	ArrayList values = new ArrayList();
+	ArrayList values = new ArrayList(); */
 	
 	public String add() throws SQLException
 	{

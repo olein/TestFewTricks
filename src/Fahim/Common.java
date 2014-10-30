@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Common {
+	String table;
+	ArrayList fields = new ArrayList();
+	ArrayList type = new ArrayList();
+	ArrayList values = new ArrayList();
 
 	public Connection DBconnection(Connection conn) {
 
@@ -77,6 +81,7 @@ public class Common {
 		preparedStatement.executeUpdate();
 
 		conn.close();
+		
 		return "success";
 	}
 	public String update(String table, ArrayList fields, ArrayList type,
