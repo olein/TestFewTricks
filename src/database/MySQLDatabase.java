@@ -1,19 +1,23 @@
-package Fahim;
+package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
-public class Common {
+public class MySQLDatabase 
+{
 	String table;
 	ArrayList fields = new ArrayList();
 	ArrayList type = new ArrayList();
 	ArrayList values = new ArrayList();
-
-	public Connection DBconnection() {
-
+	Connection conn;
+	public Connection DBconnection() 
+	{
 		String url = "jdbc:mysql://localhost:3306/";
 		String dbName = "user";
 		String driver = "com.mysql.jdbc.Driver";
@@ -27,7 +31,6 @@ public class Common {
 			conn = DriverManager.getConnection(url + dbName, userName,
 					password1);
 			System.out.println("Connected to the database");
-
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -35,7 +38,57 @@ public class Common {
 		}
 		return conn;
 	}
+	
+	public void closeConnection(Connection conn) throws SQLException
+	{
+		 try {
+			 conn.close();
+	        } catch (SQLException e) {
+	            throw new RuntimeException(e);
+	        }		
+	}
+	
+	public ResultSet executeSelectQuery(String tableName, String field,ArrayList fields,
+			ArrayList type, ArrayList values) throws SQLException 
+	{
+		conn = DBconnection();
+		
+		
+		String sql = " select " + field + " from " + tableName + " ";
+		
+		int size = fields.size();
 
+		if (size > 0) {
+			sql += " where ";
+			for (int i = 0; i < fields.size(); i++) {
+				sql += fields.get(i)+"=? ";
+				if (i < fields.size() - 1) 
+				{
+					sql += " and ";
+				}				
+			}
+		}
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		System.out.println(sql);
+		for (int i = 0; i < fields.size(); i++)
+		{
+			if (type.get(i).equals("String")) 
+			{
+				String result = (String) values.get(i);
+				preparedStatement.setString(i + 1, result);
+			}
+			if (type.get(i).equals("int")) 
+			{
+				int result = (int) values.get(i);
+				preparedStatement.setInt(i + 1, result);
+			}
+		}
+		
+		ResultSet rs = preparedStatement.executeQuery();
+				
+		return rs;
+	}
+	
 	public String add(String table, ArrayList fields, ArrayList type,
 			ArrayList values) throws SQLException 
 	{
@@ -81,10 +134,11 @@ public class Common {
 
 		preparedStatement.executeUpdate();
 
-		conn.close();
+		closeConnection(conn);
 		
 		return "success";
 	}
+	
 	public String update(String table, ArrayList fields, ArrayList type,
 			ArrayList values) throws SQLException 
 	{
@@ -117,12 +171,13 @@ public class Common {
 				preparedStatement.setInt(i + 1, result);
 			}
 		}
-		preparedStatement.setInt(fields.size()+1, 3);
+		preparedStatement.setInt(fields.size()+1, 6);
 		preparedStatement.executeUpdate();
 
-		conn.close();
+		closeConnection(conn);
 		return "success";
 	}
+	
 	public String delete(String table, int id) throws SQLException 
 	{
 		Connection conn = DBconnection();
@@ -133,10 +188,11 @@ public class Common {
 		
 		PreparedStatement preparedStatement = conn.prepareStatement(sql);
 		
-		preparedStatement.setInt(1 , 3);
+		preparedStatement.setInt(1 , id);
 		preparedStatement.executeUpdate();
 
-		conn.close();
+		closeConnection(conn);
 		return "success";
 	}
+
 }

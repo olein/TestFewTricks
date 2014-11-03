@@ -74,6 +74,32 @@
         <action name="register" class="Fahim.RegisterAction">  
 			<result name="input">/validator.jsp</result>  
 			<result>/welcome.jsp</result>  
-		</action>  
+		</action>
+		
+		<action name="getAllUser"  class="database.UserAction" method="getAllUser">  
+        	<result name="success">/success.jsp</result>
+        
+        </action>
+        
+        <action name="getAllUserByCriteria"  class="database.UserAction" method="getAllUserByCriteria">  
+        	<result name="success">/success.jsp</result>
+        
+        </action>
+        
+        <action name="addUser"  class="database.UserAction" method="add">  
+        	<result name="success">/success.jsp</result>
+        
+        </action>
+        
+        <action name="updateUser"  class="database.UserAction" method="update">  
+        	<result name="success">/success.jsp</result>
+        
+        </action>
+        
+        <action name="deleteUser"  class="database.UserAction" method="delete">  
+        	<result name="success">/success.jsp</result>
+        
+        </action>
+		  
    </package>	
 </struts>
